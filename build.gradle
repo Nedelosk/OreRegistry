@@ -1,0 +1,77 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+
+plugins {
+	id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven'
+
+version = version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
+group = "oreregistry" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "oreregistry_" + mcversion
+
+// java version
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+minecraft {
+	version = mcversion + "-" + forgeversion
+	runDir = "run"
+	mappings = mcp_mappings
+
+	replace '@VERSION@', project.version
+	replace '@BUILD_NUMBER@', getBuildNumber()
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+	filePath = "changelog.html"
+	untaggedName = "Current release ${project.version}"
+	fromCommit = "5a3850c2642e535656d090d1473054d5fa8d3331"
+	toRef =  "HEAD"
+	templateContent = """
+Alpha version, still buggy. Do not create a world you care about with this version, it can and will break things severely.<br/>
+Please help the project by trying it out and <a href="https://github.com/Nedelosk/OreRegistry/issues">reporting issues here.</a><br/>
+{{#tags}}
+  <h3>{{name}}</h3>
+  <ul>
+    {{#commits}}
+    <li>{{{message}}} - {{authorName}}</li>
+    {{/commits}}
+  </ul>
+{{/tags}}
+"""
+}
+
+def getBuildNumber() {
+	return "$System.env.BUILD_NUMBER" != "null" ? "$System.env.BUILD_NUMBER" : "0"
+}

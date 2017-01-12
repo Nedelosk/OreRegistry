@@ -1,0 +1,16 @@
+[
+{
+  "modid": "oreregistry",
+  "name": "Ore Registry",
+  "description": "Example placeholder mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Nedelosk", "Mezz"],
+  "credits": "Thanks to the Forge guys",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
