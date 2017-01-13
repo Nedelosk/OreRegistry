@@ -39,7 +39,7 @@ public class Resource implements IResource {
 			OreRegistry.unusedItems.add(product);
 		}
 
-		return chosenProduct;
+		return chosenProduct.copy();
 	}
 	
 	@Override
