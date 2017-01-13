@@ -3,6 +3,8 @@ package oreregistry.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import jline.internal.Preconditions;
 import net.minecraft.item.ItemStack;
 import oreregistry.api.IResource;
@@ -37,6 +39,11 @@ public class Resource implements IResource {
 			throw new IllegalArgumentException("Product has not been registered: " + productType + ". Always register your product before trying to get the chosen product.");
 		}
 		return product;
+	}
+
+	@Override
+	public Map<String, ItemStack> getRegisteredProducts() {
+		return ImmutableMap.copyOf(products);
 	}
 
 }

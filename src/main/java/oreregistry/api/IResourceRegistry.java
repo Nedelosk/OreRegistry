@@ -2,8 +2,6 @@ package oreregistry.api;
 
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
 public interface IResourceRegistry {
 
 	IResource registerResource(String resourceName);

@@ -15,12 +15,14 @@ import oreregistry.api.IResourceRegistry;
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.ResourceTypes;
 import oreregistry.config.Constants;
+import oreregistry.util.ResourceHelper;
 import oreregistry.util.ResourceRegistry;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = "[1.11]")
 public class OreRegistry {
 	public OreRegistry() {
 		OreRegistryApi.registry = new ResourceRegistry();
+		OreRegistryApi.helper = new ResourceHelper();
 	}
 
 	@EventHandler

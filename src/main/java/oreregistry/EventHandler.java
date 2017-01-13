@@ -3,10 +3,13 @@ package oreregistry;
 import java.util.List;
 
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import oreregistry.api.IProduct;
+import oreregistry.api.OreRegistryApi;
 
 public class EventHandler {
 
@@ -14,10 +17,12 @@ public class EventHandler {
 	@SubscribeEvent
 	public void onTooltip(ItemTooltipEvent event){
 		if(event.isShowAdvancedItemTooltips()){
-			List<String> tooltip = event.getToolTip();
-			//TODO: translate
-			//tooltip.add(TextFormatting.DARK_GRAY + "Resource: ");
-			//tooltip.add(TextFormatting.DARK_GRAY + "Product Type: ");
+			IProduct product = OreRegistryApi.helper.getProduct(event.getItemStack());
+			if(product != null){
+				List<String> tooltip = event.getToolTip();
+				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.resource.name") + product.getResourceName());
+				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.product.type.name") + product.getProductType());
+			}
 		}
 	}
 	
