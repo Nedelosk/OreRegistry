@@ -13,5 +13,6 @@ public class ProductTypes {
 	public static final String NUGGET = "nugget";
 	public static final String GEM = "gem";
 	public static final String BLOCK = "block";
+	public static final String GEAR = "gear";
 
 }

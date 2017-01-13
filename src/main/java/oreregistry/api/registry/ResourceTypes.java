@@ -17,8 +17,15 @@ public class ResourceTypes {
 	public static final String COAL = "coal";
 
 	/* MODDED RESOURCES */
-	public static final String COPPER = "copper";
-	public static final String TIN = "tin";
+	public static final String ALUMINIUM = "aluminium";
+	public static final String BRASS = "brass";
 	public static final String BRONZE = "bronze";
+	public static final String COPPER = "copper";
+	public static final String LEAD = "lead";
+	public static final String NICKEL = "nickel";
+	public static final String SILVER = "silver";
+	public static final String STEEL = "steel";
+	public static final String TIN = "tin";
+
 
 }
