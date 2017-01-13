@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
-import oreregistry.api.IResource;
-import oreregistry.api.IResourceRegistry;
+import oreregistry.api.registry.IResource;
+import oreregistry.api.registry.IResourceRegistry;
 
 public final class ResourceRegistry implements IResourceRegistry {
 

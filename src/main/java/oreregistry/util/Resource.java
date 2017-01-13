@@ -7,7 +7,7 @@ import java.util.Map;
 import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
 import oreregistry.OreRegistry;
-import oreregistry.api.IResource;
+import oreregistry.api.registry.IResource;
 
 public class Resource implements IResource {
 	private final String type;
@@ -28,27 +28,19 @@ public class Resource implements IResource {
 		Preconditions.checkNotNull(product, "Product must not be null");
 		Preconditions.checkArgument(!product.isEmpty(), "Product must not be empty");
 
-		OreRegistry.helper.registerResourceItem(product, this);
-
-		if (!products.containsKey(productType)) {
+		ItemStack chosenProduct = products.get(productType);
+		if (chosenProduct == null) {
 			ItemStack copy = product.copy();
 			copy.setCount(1);
 			products.put(productType, copy);
+			chosenProduct = product;
+
+			OreRegistry.helper.registerResourceItem(product, this);
 		} else {
 			OreRegistry.unusedItems.add(product);
 		}
-		return getProduct(productType);
-	}
 
-	@Override
-	public ItemStack getProduct(String productType) {
-		Preconditions.checkNotNull(productType, "Product Type must not be null");
-
-		ItemStack product = products.get(productType);
-		if (product == null) {
-			throw new IllegalArgumentException("Product has not been registered: " + productType + ". Always register your product before trying to get the chosen product.");
-		}
-		return product.copy();
+		return chosenProduct;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package oreregistry.api;
+package oreregistry.api.registry;
 
 /**
  * Known product types.

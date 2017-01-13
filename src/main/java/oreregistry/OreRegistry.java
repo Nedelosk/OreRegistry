@@ -3,7 +3,7 @@ package oreregistry;
 import java.util.ArrayList;
 import java.util.List;
 
-import static oreregistry.api.ProductTypes.*;
+import static oreregistry.api.registry.ProductTypes.*;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -13,22 +13,22 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import oreregistry.api.IResource;
-import oreregistry.api.IResourceRegistry;
 import oreregistry.api.OreRegistryApi;
-import oreregistry.api.ResourceTypes;
+import oreregistry.api.registry.IResource;
+import oreregistry.api.registry.IResourceRegistry;
+import oreregistry.api.registry.ResourceTypes;
 import oreregistry.config.Constants;
-import oreregistry.util.ResourceHelper;
+import oreregistry.util.ResourceInfo;
 import oreregistry.util.ResourceRegistry;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = "[1.11]")
 public class OreRegistry {
-	public static final ResourceHelper helper;
+	public static final ResourceInfo helper;
 	public static final List<ItemStack> unusedItems = new ArrayList<>();
 
 	static {
 		OreRegistryApi.registry = new ResourceRegistry();
-		OreRegistryApi.helper = helper = new ResourceHelper();
+		OreRegistryApi.info = helper = new ResourceInfo();
 	}
 
 	@EventHandler

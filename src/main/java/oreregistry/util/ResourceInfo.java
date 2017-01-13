@@ -10,16 +10,16 @@ import java.util.Map.Entry;
 import com.google.common.base.Preconditions;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import oreregistry.api.IProduct;
-import oreregistry.api.IResource;
-import oreregistry.api.IResourceHelper;
+import oreregistry.api.info.IProductInfo;
+import oreregistry.api.info.IResourceInfo;
+import oreregistry.api.registry.IResource;
 
-public class ResourceHelper implements IResourceHelper {
+public class ResourceInfo implements IResourceInfo {
 	private final Map<Item, List<IResource>> resourceItems = new IdentityHashMap<>();
 
 	@Nullable
 	@Override
-	public IProduct getProduct(ItemStack itemStack) {
+	public IProductInfo getProductInfo(ItemStack itemStack) {
 		Preconditions.checkNotNull(itemStack, "itemStack must not be null");
 		Preconditions.checkArgument(!itemStack.isEmpty(), "itemStack must not be empty");
 
@@ -32,7 +32,7 @@ public class ResourceHelper implements IResourceHelper {
 					ItemStack product = entry.getValue();
 					if (ItemStack.areItemsEqual(product, itemStack) && ItemStack.areItemStackTagsEqual(itemStack, product)) {
 						String productType = entry.getKey();
-						return new Product(resource.getType(), productType, product);
+						return new ProductInfo(resource.getType(), productType);
 					}
 				}
 			}
