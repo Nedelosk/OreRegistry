@@ -30,12 +30,11 @@ public class Resource implements IResource {
 
 		ItemStack chosenProduct = products.get(productType);
 		if (chosenProduct == null) {
-			ItemStack copy = product.copy();
-			copy.setCount(1);
-			products.put(productType, copy);
-			chosenProduct = product;
+			chosenProduct = product.copy();
+			chosenProduct.setCount(1);
+			products.put(productType, chosenProduct);
 
-			OreRegistry.helper.registerResourceItem(product, this);
+			OreRegistry.helper.registerResourceItem(chosenProduct, this);
 		} else {
 			OreRegistry.unusedItems.add(product);
 		}
