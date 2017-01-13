@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface IResourceRegistry {
 
-	IResource registerResource(String resourceName);
+	IResource registerResource(String resourceType);
 
 	/**
 	 * Returns a read-only map containing resource names and their associated

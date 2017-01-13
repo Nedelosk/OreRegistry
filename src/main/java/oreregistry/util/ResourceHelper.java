@@ -1,10 +1,10 @@
 package oreregistry.util;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.Nullable;
-
+import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
 import oreregistry.api.IProduct;
 import oreregistry.api.IResource;
@@ -16,6 +16,9 @@ public class ResourceHelper implements IResourceHelper {
 	@Nullable
 	@Override
 	public IProduct getProduct(ItemStack itemStack) {
+		Preconditions.checkNotNull(itemStack, "itemStack must not be null");
+		Preconditions.checkArgument(!itemStack.isEmpty(), "itemStack must not be empty");
+
 		Map<String, IResource> registeredResources = OreRegistryApi.registry.getRegisteredResources();
 		for(IResource resource : registeredResources.values()){
 			Map<String, ItemStack> registeredProducts = resource.getRegisteredProducts();

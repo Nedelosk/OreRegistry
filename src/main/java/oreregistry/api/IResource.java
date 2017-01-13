@@ -5,6 +5,7 @@ import java.util.Map;
 import net.minecraft.item.ItemStack;
 
 /**
+ * A resource has a type (see {@link ResourceTypes} and contains several product types (see {@link ProductTypes}.
  *
  */
 public interface IResource {
@@ -20,8 +21,9 @@ public interface IResource {
 	 *            The type of the product. For examples see {@link ProductTypes}.
 	 * @param product
 	 *            The product provided by your mod.
+	 * @return the one chosen product that should be used by every mod.
 	 */
-	void registerProduct(String productType, ItemStack product);
+	ItemStack registerProduct(String productType, ItemStack product);
 
 	/**
 	 * Gets the one chosen product of the specified type.
