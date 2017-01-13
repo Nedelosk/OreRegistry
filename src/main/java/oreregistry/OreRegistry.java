@@ -1,5 +1,8 @@
 package oreregistry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static oreregistry.api.ProductTypes.*;
 
 import net.minecraft.init.Blocks;
@@ -21,6 +24,7 @@ import oreregistry.util.ResourceRegistry;
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = "[1.11]")
 public class OreRegistry {
 	public static final ResourceHelper helper;
+	public static final List<ItemStack> unusedItems = new ArrayList<>();
 
 	static {
 		OreRegistryApi.registry = new ResourceRegistry();

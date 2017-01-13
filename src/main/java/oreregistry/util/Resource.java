@@ -34,6 +34,8 @@ public class Resource implements IResource {
 			ItemStack copy = product.copy();
 			copy.setCount(1);
 			products.put(productType, copy);
+		} else {
+			OreRegistry.unusedItems.add(product);
 		}
 		return getProduct(productType);
 	}

@@ -34,6 +34,17 @@ minecraft {
 	replace '@BUILD_NUMBER@', getBuildNumber()
 }
 
+repositories {
+    maven {
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+dependencies {
+    deobfCompile "mezz.jei:jei_${mcversion}:${jei_version}:api"
+    runtime "mezz.jei:jei_${mcversion}:${jei_version}"
+}
+
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
