@@ -20,9 +20,11 @@ import oreregistry.util.ResourceRegistry;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = "[1.11]")
 public class OreRegistry {
-	public OreRegistry() {
+	public static final ResourceHelper helper;
+
+	static {
 		OreRegistryApi.registry = new ResourceRegistry();
-		OreRegistryApi.helper = new ResourceHelper();
+		OreRegistryApi.helper = helper = new ResourceHelper();
 	}
 
 	@EventHandler

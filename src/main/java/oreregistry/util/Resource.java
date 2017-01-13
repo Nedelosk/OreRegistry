@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
+import oreregistry.OreRegistry;
 import oreregistry.api.IResource;
 
 public class Resource implements IResource {
@@ -26,6 +27,8 @@ public class Resource implements IResource {
 		Preconditions.checkNotNull(productType, "Product Type must not be null");
 		Preconditions.checkNotNull(product, "Product must not be null");
 		Preconditions.checkArgument(!product.isEmpty(), "Product must not be empty");
+
+		OreRegistry.helper.registerResourceItem(product, this);
 
 		if (!products.containsKey(productType)) {
 			ItemStack copy = product.copy();
