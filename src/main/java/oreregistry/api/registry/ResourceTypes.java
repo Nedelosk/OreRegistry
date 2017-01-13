@@ -12,6 +12,9 @@ public class ResourceTypes {
 	public static final String EMERALD = "emerald";
 	public static final String DIAMOND = "diamond";
 	public static final String LAPIS = "lapis";
+	public static final String REDSTONE = "redstone";
+	public static final String QUARTZ = "quartz";
+	public static final String COAL = "coal";
 
 	/* MODDED RESOURCES */
 	public static final String COPPER = "copper";

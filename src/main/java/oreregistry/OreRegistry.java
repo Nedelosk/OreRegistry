@@ -64,5 +64,20 @@ public class OreRegistry {
 		lapis.registerProduct(GEM, new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()));
 		lapis.registerProduct(BLOCK, new ItemStack(Blocks.LAPIS_BLOCK));
 		lapis.registerProduct(ORE, new ItemStack(Blocks.LAPIS_ORE));
+
+		final IResource redstone = resourceRegistry.registerResource(ResourceTypes.REDSTONE);
+		redstone.registerProduct(DUST, new ItemStack(Items.REDSTONE));
+		redstone.registerProduct(BLOCK, new ItemStack(Blocks.REDSTONE_BLOCK));
+		redstone.registerProduct(ORE, new ItemStack(Blocks.REDSTONE_ORE));
+
+		final IResource quartz = resourceRegistry.registerResource(ResourceTypes.QUARTZ);
+		quartz.registerProduct(GEM, new ItemStack(Items.QUARTZ));
+		quartz.registerProduct(BLOCK, new ItemStack(Blocks.QUARTZ_BLOCK));
+		quartz.registerProduct(ORE, new ItemStack(Blocks.QUARTZ_ORE));
+
+		final IResource coal = resourceRegistry.registerResource(ResourceTypes.COAL);
+		coal.registerProduct(GEM, new ItemStack(Items.COAL));
+		coal.registerProduct(BLOCK, new ItemStack(Blocks.COAL_BLOCK));
+		coal.registerProduct(ORE, new ItemStack(Blocks.COAL_ORE));
 	}
 }
