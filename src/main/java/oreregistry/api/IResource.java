@@ -1,7 +1,5 @@
 package oreregistry.api;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.item.ItemStack;
 
 /**
@@ -10,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public interface IResource {
 
 	/**
-	 * The name of the resource.
+	 * The name of the resource. For examples see {@link ResourceTypes}.
 	 */
 	String getName();
 
@@ -19,11 +17,16 @@ public interface IResource {
 	 * @param productType
 	 *            The type of the product. For examples see {@link ProductTypes}.
 	 * @param product
-	 * @return True if the product was registered.
+	 *            The product provided by your mod.
 	 */
-	boolean registerProduct(String productType, ItemStack product);
+	void registerProduct(String productType, ItemStack product);
 
-	@Nullable
+	/**
+	 * Gets the one chosen product of the specified type.
+	 * <p>
+	 * Throws an exception if the type has not been registered.
+	 * Always register your product before trying to get the chosen product.
+	 */
 	ItemStack getProduct(String productType);
 
 }

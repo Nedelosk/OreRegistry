@@ -1,7 +1,8 @@
 package oreregistry.api;
 
 /**
- * Examples for productTypes.
+ * Known productTypes.
+ * To add more, please submit a PR so they are visible to everyone.
  */
 public class ProductTypes {
 

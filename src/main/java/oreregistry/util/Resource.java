@@ -1,9 +1,7 @@
 package oreregistry.util;
 
-import javax.annotation.Nullable;
-
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import jline.internal.Preconditions;
 import net.minecraft.item.ItemStack;
@@ -12,7 +10,7 @@ import oreregistry.api.IResource;
 public class Resource implements IResource {
 
 	private final String name;
-	protected final BiMap<String, ItemStack> products = HashBiMap.create();
+	protected final Map<String, ItemStack> products = new HashMap<>();
 
 	public Resource(String name) {
 		this.name = name;
@@ -24,20 +22,21 @@ public class Resource implements IResource {
 	}
 
 	@Override
-	public boolean registerProduct(String productType, ItemStack product) {
+	public void registerProduct(String productType, ItemStack product) {
 		Preconditions.checkNotNull(productType);
 		Preconditions.checkNotNull(product);
-		if (products.containsKey(productType)) {
-			throw new IllegalArgumentException("Product already exists with type: " + productType);
+		if (!products.containsKey(productType)) {
+			products.put(productType, product);
 		}
-		products.put(productType, product);
-		return true;
 	}
 
-	@Nullable
 	@Override
 	public ItemStack getProduct(String productType) {
-		return products.get(productType);
+		ItemStack product = products.get(productType);
+		if (product == null) {
+			throw new IllegalArgumentException("Product has not been registered: " + productType + ". Always register your product before trying to get the chosen product.");
+		}
+		return product;
 	}
 
 }
