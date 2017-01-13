@@ -86,3 +86,22 @@ Please help the project by trying it out and <a href="https://github.com/Nedelos
 def getBuildNumber() {
 	return "$System.env.BUILD_NUMBER" != "null" ? "$System.env.BUILD_NUMBER" : "0"
 }
+
+// prevent java 8's strict doclint for javadocs from failing builds
+allprojects {
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+uploadArchives {
+    repositories {
+        if (project.hasProperty('mavenDir')) {
+            mavenDeployer {
+                repository(url: "file://"+mavenDir)
+            }
+        } else {
+            println 'Archives upload disabled, mavenDir in gradle.properties is missing.'
+        }
+    }
+}
