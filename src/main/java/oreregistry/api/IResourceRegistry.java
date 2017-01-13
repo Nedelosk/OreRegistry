@@ -31,9 +31,6 @@ public interface IResourceRegistry {
 
 	boolean isResourceRegistered(String name);
 
-	@Nullable
-	String getResourceName(IResource resource);
-
 	/**
 	 * Returns a read-only map containing resource names and their associated
 	 * resources.

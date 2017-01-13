@@ -1,7 +1,7 @@
 package oreregistry.api;
 
 /**
- * Exambles for productTypes.
+ * Examples for productTypes.
  */
 public class ProductTypes {
 
@@ -11,6 +11,6 @@ public class ProductTypes {
 	public static final String POWDER = "powder";
 	public static final String NUGGET = "nugget";
 	public static final String GEM = "gem";
-	public static final String METAL_BLOCK = "metal_block";
+	public static final String BLOCK = "block";
 
 }

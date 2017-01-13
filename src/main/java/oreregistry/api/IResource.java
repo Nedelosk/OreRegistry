@@ -17,7 +17,7 @@ public interface IResource {
 	/**
 	 * 
 	 * @param productType
-	 *            The type of the product. For exaples see {@link ProductTypes}.
+	 *            The type of the product. For examples see {@link ProductTypes}.
 	 * @param product
 	 * @return True if the product was registered.
 	 */

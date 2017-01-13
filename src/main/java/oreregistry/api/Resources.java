@@ -2,7 +2,7 @@ package oreregistry.api;
 
 public class Resources {
 
-	/* MINEACRFT RESOURCES */
+	/* MINECRAFT RESOURCES */
 	public static final String IRON = "iron";
 	public static final String GOLD = "gold";
 	public static final String EMERALD = "emerald";

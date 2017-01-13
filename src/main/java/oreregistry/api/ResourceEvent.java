@@ -15,7 +15,7 @@ public abstract class ResourceEvent extends Event {
 	}
 
 	/**
-	 * Called if anyone registers an resource.
+	 * Called when a new resource is registered.
 	 */
 	public static final class ResourceRegisterEvent extends ResourceEvent {
 
