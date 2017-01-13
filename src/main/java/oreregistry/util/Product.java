@@ -5,19 +5,19 @@ import oreregistry.api.IProduct;
 
 public class Product implements IProduct {
 
-	private final String resourceName;
+	private final String resourceType;
 	private final String productType;
 	private final ItemStack product;
 	
-	public Product(String resourceName, String productType, ItemStack product) {
-		this.resourceName = resourceName;
+	public Product(String resourceType, String productType, ItemStack product) {
+		this.resourceType = resourceType;
 		this.productType = productType;
 		this.product = product;
 	}
 	
 	@Override
-	public String getResourceName() {
-		return resourceName;
+	public String getResourceType() {
+		return resourceType;
 	}
 	
 	@Override

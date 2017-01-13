@@ -23,7 +23,7 @@ public class ResourceHelper implements IResourceHelper {
 				ItemStack product = entry.getValue();
 				if(ItemStack.areItemsEqual(product, itemStack) && ItemStack.areItemStackTagsEqual(itemStack, product)){
 					String productType = entry.getKey();
-					return new Product(resource.getName(), productType, product);
+					return new Product(resource.getType(), productType, product);
 				}
 			}
 		}

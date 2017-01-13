@@ -1,9 +1,8 @@
 package oreregistry.util;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.collect.ImmutableMap;
 
 import jline.internal.Preconditions;
 import net.minecraft.item.ItemStack;
@@ -19,7 +18,7 @@ public class Resource implements IResource {
 	}
 
 	@Override
-	public String getName() {
+	public String getType() {
 		return name;
 	}
 
@@ -43,7 +42,7 @@ public class Resource implements IResource {
 
 	@Override
 	public Map<String, ItemStack> getRegisteredProducts() {
-		return ImmutableMap.copyOf(products);
+		return Collections.unmodifiableMap(products);
 	}
 
 }

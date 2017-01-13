@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 public interface IResource {
 
 	/**
-	 * The name of the resource. For examples see {@link ResourceTypes}.
+	 * The type of the resource. For examples see {@link ResourceTypes}.
 	 */
-	String getName();
+	String getType();
 
 	/**
 	 * 

@@ -1,9 +1,9 @@
 package oreregistry.util;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
 import net.minecraftforge.common.MinecraftForge;
 import oreregistry.api.IResource;
 import oreregistry.api.IResourceRegistry;
@@ -20,14 +20,14 @@ public final class ResourceRegistry implements IResourceRegistry {
 		}
 
 		Resource resource = new Resource(resourceName);
-		resources.put(resource.getName(), resource);
 		MinecraftForge.EVENT_BUS.post(new ResourceEvent.ResourceRegisterEvent(resource));
+		resources.put(resource.getType(), resource);
 		return resource;
 	}
 
 	@Override
 	public Map<String, IResource> getRegisteredResources() {
-		return ImmutableMap.copyOf(resources);
+		return Collections.unmodifiableMap(resources);
 	}
 
 }

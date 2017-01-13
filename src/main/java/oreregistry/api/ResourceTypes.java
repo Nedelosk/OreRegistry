@@ -1,5 +1,9 @@
 package oreregistry.api;
 
+/**
+ * Known resource types.
+ * To add more, please submit a PR so they are visible to everyone.
+ */
 public class ResourceTypes {
 
 	/* MINECRAFT RESOURCES */
@@ -10,7 +14,6 @@ public class ResourceTypes {
 	public static final String LAPIS = "lapis";
 
 	/* MODDED RESOURCES */
-	/* To add more, please submit a PR so they are visible to everyone. */
 	public static final String COPPER = "copper";
 	public static final String TIN = "tin";
 	public static final String BRONZE = "bronze";

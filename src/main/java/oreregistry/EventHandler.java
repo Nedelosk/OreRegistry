@@ -20,7 +20,7 @@ public class EventHandler {
 			IProduct product = OreRegistryApi.helper.getProduct(event.getItemStack());
 			if(product != null){
 				List<String> tooltip = event.getToolTip();
-				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.resource.name") + product.getResourceName());
+				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.resource.name") + product.getResourceType());
 				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.product.type.name") + product.getProductType());
 			}
 		}
