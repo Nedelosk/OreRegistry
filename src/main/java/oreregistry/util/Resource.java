@@ -42,6 +42,12 @@ public class Resource implements IResource {
 
 		return chosenProduct;
 	}
+	
+	@Override
+	public boolean hasProduct(String productType) {
+		Preconditions.checkNotNull(productType, "Product Type must not be null");
+		return products.get(productType) != null;
+	}
 
 	@Override
 	public Map<String, ItemStack> getRegisteredProducts() {

@@ -27,6 +27,13 @@ public interface IResource {
 	ItemStack registerProduct(String productType, ItemStack product);
 
 	/**
+	 * 
+	 * @param productType The type of the product. For examples see {@link ProductTypes}.
+	 * @return True if it is already a product registered with this type.
+	 */
+	boolean hasProduct(String productType);
+	
+	/**
 	 * Returns a read-only map containing product types and their associated products.
 	 */
 	Map<String, ItemStack> getRegisteredProducts();
