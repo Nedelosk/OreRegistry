@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import oreregistry.api.info.IProductInfo;
 import oreregistry.api.info.IResourceInfo;
+import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
 
 public class ResourceInfo implements IResourceInfo {
@@ -27,9 +28,9 @@ public class ResourceInfo implements IResourceInfo {
 		List<IResource> resources = resourceItems.get(item);
 		if (resources != null) {
 			for (IResource resource : resources) {
-				Map<String, ItemStack> registeredProducts = resource.getRegisteredProducts();
-				for (Entry<String, ItemStack> entry : registeredProducts.entrySet()) {
-					ItemStack product = entry.getValue();
+				Map<String, IProduct> registeredProducts = resource.getRegisteredProducts();
+				for (Entry<String, IProduct> entry : registeredProducts.entrySet()) {
+					ItemStack product = entry.getValue().getChosenProduct();
 					if (ItemStack.areItemsEqual(product, itemStack) && ItemStack.areItemStackTagsEqual(itemStack, product)) {
 						String productType = entry.getKey();
 						return new ProductInfo(resource.getType(), productType);

@@ -26,6 +26,7 @@ public class ResourceTypes {
 	public static final String SILVER = "silver";
 	public static final String STEEL = "steel";
 	public static final String TIN = "tin";
+	public static final String ZINC = "zinc";
 
 
 }

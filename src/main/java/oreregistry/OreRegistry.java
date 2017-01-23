@@ -11,30 +11,38 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.registry.IResource;
 import oreregistry.api.registry.IResourceRegistry;
 import oreregistry.api.registry.ResourceTypes;
 import oreregistry.config.Constants;
+import oreregistry.network.PacketHandler;
 import oreregistry.util.ResourceInfo;
 import oreregistry.util.ResourceRegistry;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = "[1.11]")
 public class OreRegistry {
+	
+	public static final ResourceRegistry registry;
 	public static final ResourceInfo helper;
 	public static final List<ItemStack> unusedItems = new ArrayList<>();
 
 	static {
-		OreRegistryApi.registry = new ResourceRegistry();
+		OreRegistryApi.registry = registry = new ResourceRegistry();
 		OreRegistryApi.info = helper = new ResourceInfo();
 	}
 
-	@EventHandler
+	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		registerVanilla(OreRegistryApi.registry);
-		MinecraftForge.EVENT_BUS.register(new oreregistry.EventHandler());
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		new PacketHandler();
+	}
+	
+	@Mod.EventHandler
+	public static void postInit(FMLPostInitializationEvent event) {
 	}
 
 	private static void registerVanilla(IResourceRegistry resourceRegistry) {

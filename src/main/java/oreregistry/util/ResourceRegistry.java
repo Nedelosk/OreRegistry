@@ -1,7 +1,6 @@
 package oreregistry.util;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
@@ -10,24 +9,34 @@ import oreregistry.api.registry.IResourceRegistry;
 
 public final class ResourceRegistry implements IResourceRegistry {
 
-	protected final Map<String, IResource> resources = new HashMap<>();
-
+	protected final ResourceStorage resourceStorage = new ResourceStorage();
+	
 	@Override
 	public IResource registerResource(String resourceType) {
 		Preconditions.checkNotNull(resourceType, "resourceType must not be null");
 
-		if (resources.containsKey(resourceType)) {
-			return resources.get(resourceType);
+		if (resourceStorage.hasResource(resourceType)) {
+			return resourceStorage.getResource(resourceType);
 		}
 
 		Resource resource = new Resource(resourceType);
-		resources.put(resource.getType(), resource);
+		resourceStorage.addResource(resource);
 		return resource;
 	}
 
 	@Override
 	public Map<String, IResource> getRegisteredResources() {
-		return Collections.unmodifiableMap(resources);
+		return Collections.unmodifiableMap(getResources());
+	}
+	
+	public ResourceStorage getResourceStorage() {
+		return resourceStorage;
+	}
+	
+	/* INTERNAL */
+	
+	public Map<String, IResource> getResources() {
+		return resourceStorage.getResources();
 	}
 
 }

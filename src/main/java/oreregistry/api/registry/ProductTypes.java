@@ -12,7 +12,9 @@ public class ProductTypes {
 	public static final String POWDER = "powder";
 	public static final String NUGGET = "nugget";
 	public static final String GEM = "gem";
+	public static final String CRYSTAL = "crystal";
 	public static final String BLOCK = "block";
 	public static final String GEAR = "gear";
+	public static final String PLATE = "plate";
 
 }

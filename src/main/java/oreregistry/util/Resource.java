@@ -6,12 +6,12 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
-import oreregistry.OreRegistry;
+import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
 
 public class Resource implements IResource {
 	private final String type;
-	private final Map<String, ItemStack> products = new HashMap<>();
+	private final Map<String, Product> products = new HashMap<>();
 
 	public Resource(String type) {
 		this.type = type;
@@ -23,23 +23,12 @@ public class Resource implements IResource {
 	}
 
 	@Override
-	public ItemStack registerProduct(String productType, ItemStack product) {
+	public ItemStack registerProduct(String productType, ItemStack productVariant) {
 		Preconditions.checkNotNull(productType, "Product Type must not be null");
-		Preconditions.checkNotNull(product, "Product must not be null");
-		Preconditions.checkArgument(!product.isEmpty(), "Product must not be empty");
 
-		ItemStack chosenProduct = products.get(productType);
-		if (chosenProduct == null) {
-			chosenProduct = product.copy();
-			chosenProduct.setCount(1);
-			products.put(productType, chosenProduct);
-
-			OreRegistry.helper.registerResourceItem(chosenProduct, this);
-		} else {
-			OreRegistry.unusedItems.add(product);
-		}
-
-		return chosenProduct.copy();
+		Product product = products.computeIfAbsent(productType, k -> new Product(this));
+		product.addVariant(productVariant);
+		return product.getChosenProduct().copy();
 	}
 	
 	@Override
@@ -49,7 +38,7 @@ public class Resource implements IResource {
 	}
 
 	@Override
-	public Map<String, ItemStack> getRegisteredProducts() {
+	public Map<String, IProduct> getRegisteredProducts() {
 		return Collections.unmodifiableMap(products);
 	}
 

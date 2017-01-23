@@ -36,6 +36,6 @@ public interface IResource {
 	/**
 	 * Returns a read-only map containing product types and their associated products.
 	 */
-	Map<String, ItemStack> getRegisteredProducts();
+	Map<String, IProduct> getRegisteredProducts();
 
 }
