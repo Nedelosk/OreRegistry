@@ -1,6 +1,5 @@
 package oreregistry.network;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,6 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import oreregistry.OreRegistry;
 import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
+import oreregistry.util.Log;
 import oreregistry.util.Resource;
 import oreregistry.util.ResourceStorage;
 import oreregistry.util.ResourceStorage.State;
@@ -73,29 +73,33 @@ public class PacketHandler {
 				EntityPlayer player = Minecraft.getMinecraft().player;
 				Preconditions.checkNotNull(player, "Tried to send data to client before the player exists.");
 				ResourceStorage storage = OreRegistry.registry.getResourceStorage();
+				
 				storage.setState(State.SYNCHRONIZE);
 				int size = buffer.readVarInt();
-				
 				while(size > 0){
 					size--;
-					String resourceType = buffer.readString(1024);
-					IResource resource = new Resource(resourceType);
-					storage.replaceResource(resource);
-					int products = buffer.readVarInt();
-					for(int i = 0;i < products;i++){
-						String productType = buffer.readString(1024);
-						ItemStack product;
-						try {
-							product = buffer.readItemStack();
-						}catch(IOException e){
-							product = ItemStack.EMPTY;
-						}
-						resource.registerProduct(productType, product);
-					}
+					readResource(buffer, storage);
 				}
 				
 				storage.setState(State.FINISH);
 			});
+		}
+	}
+	
+	private static void readResource(PacketBuffer buffer, ResourceStorage storage){
+		String resourceType = buffer.readString(1024);
+		IResource resource = new Resource(resourceType);
+		storage.replaceResource(resource);
+		int products = buffer.readVarInt();
+		for(int i = 0;i < products;i++){
+			String productType = buffer.readString(1024);
+			try{
+				ItemStack product;
+				product = buffer.readItemStack();
+				resource.registerProduct(productType, product);
+			}catch(Exception e){
+				Log.error("Failed to read a product of  the type " + productType + ".", e);
+			}
 		}
 	}
 }
