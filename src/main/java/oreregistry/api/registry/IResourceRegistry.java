@@ -1,8 +1,9 @@
 package oreregistry.api.registry;
 
-import java.util.Map;
-
 import oreregistry.api.OreRegistryApi;
+import oreregistry.api.OreRegistryState;
+
+import java.util.Map;
 
 /**
  * Register resources and get the chosen resource for each type.
@@ -21,5 +22,12 @@ public interface IResourceRegistry {
 	 * resources.
 	 */
 	Map<String, IResource> getRegisteredResources();
+
+	/**
+	 * The current state of the registry process.
+	 *
+	 * You only can register resources and products in the active state.
+	 */
+	OreRegistryState getRegistryState();
 
 }

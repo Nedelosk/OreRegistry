@@ -1,5 +1,6 @@
 package oreregistry.util;
 
+import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IResource;
 
 import java.util.HashMap;
@@ -8,14 +9,14 @@ import java.util.Map;
 public class ResourceStorage {
 
 	private final Map<String, IResource> resources = new HashMap<>();
-	private State state;
+	private OreRegistryState state;
 
 	public ResourceStorage() {
-		state = State.ACTIVE;
+		state = OreRegistryState.ACTIVE;
 	}
-	
+
 	public void addResource(IResource resource){
-		if(state != State.ACTIVE){
+		if(state != OreRegistryState.ACTIVE){
 			return;
 		}
 		String type = resource.getType();
@@ -25,7 +26,7 @@ public class ResourceStorage {
 	}
 	
 	public IResource replaceResource(IResource resource){
-		if(state != State.SYNCHRONIZE){
+		if(state != OreRegistryState.SYNCHRONIZE){
 			return null;
 		}
 		String type = resource.getType();
@@ -44,16 +45,12 @@ public class ResourceStorage {
 		return resources;
 	}
 	
-	public void setState(State state) {
+	public void setState(OreRegistryState state) {
 		this.state = state;
 	}
 	
-	public State getState() {
+	public OreRegistryState getState() {
 		return state;
-	}
-	
-	public enum State{
-		ACTIVE, SYNCHRONIZE, CHOSE, FINISH;
 	}
 	
 }

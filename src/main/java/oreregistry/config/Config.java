@@ -7,9 +7,11 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.relauncher.Side;
 import oreregistry.OreRegistry;
 import oreregistry.api.OreRegistryApi;
+import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
 import oreregistry.util.Product;
+import oreregistry.util.ResourceStorage;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -26,7 +28,9 @@ public class Config {
         loadConfig(side, configFile);
     }
 
-    private static void loadConfig(Side side, File configFile) {char f = '\n';
+    private static void loadConfig(Side side, File configFile) {
+        ResourceStorage storage = OreRegistry.registry.getResourceStorage();
+        storage.setState(OreRegistryState.CHOSE);
         config = new Configuration(configFile, "1.0.0");
         String resourceCategory = "resource";
         String categoryComment = "This config category is used to chose the product variants that should be used by this mod.";
@@ -65,5 +69,6 @@ public class Config {
         if(config.hasChanged()) {
             config.save();
         }
+        storage.setState(OreRegistryState.INACTIVE);
     }
 }

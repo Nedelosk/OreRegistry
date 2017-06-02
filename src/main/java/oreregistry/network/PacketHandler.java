@@ -1,10 +1,6 @@
 package oreregistry.network;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.common.base.Preconditions;
-
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,12 +17,15 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import oreregistry.OreRegistry;
+import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
 import oreregistry.util.Log;
 import oreregistry.util.Resource;
 import oreregistry.util.ResourceStorage;
-import oreregistry.util.ResourceStorage.State;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class PacketHandler {
 
@@ -74,14 +73,14 @@ public class PacketHandler {
 				Preconditions.checkNotNull(player, "Tried to send data to client before the player exists.");
 				ResourceStorage storage = OreRegistry.registry.getResourceStorage();
 				
-				storage.setState(State.SYNCHRONIZE);
+				storage.setState(OreRegistryState.SYNCHRONIZE);
 				int size = buffer.readVarInt();
 				while(size > 0){
 					size--;
 					readResource(buffer, storage);
 				}
 				
-				storage.setState(State.FINISH);
+				storage.setState(OreRegistryState.INACTIVE);
 			});
 		}
 	}

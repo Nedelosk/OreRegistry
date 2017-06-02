@@ -1,11 +1,12 @@
 package oreregistry.util;
 
-import java.util.Collections;
-import java.util.Map;
-
 import com.google.common.base.Preconditions;
+import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IResource;
 import oreregistry.api.registry.IResourceRegistry;
+
+import java.util.Collections;
+import java.util.Map;
 
 public final class ResourceRegistry implements IResourceRegistry {
 
@@ -32,7 +33,12 @@ public final class ResourceRegistry implements IResourceRegistry {
 	public ResourceStorage getResourceStorage() {
 		return resourceStorage;
 	}
-	
+
+	@Override
+	public OreRegistryState getRegistryState() {
+		return resourceStorage.getState();
+	}
+
 	/* INTERNAL */
 	
 	public Map<String, IResource> getResources() {
