@@ -37,7 +37,7 @@ public class Resource implements IResource {
 
 		OreRegistryState state = OreRegistry.registry.getState();
 		if(state != OreRegistryState.ACTIVE){
-			throw new UnsupportedOperationException("Products must not be registered only in other states than the ACTIVE state");
+			throw new UnsupportedOperationException("Products must not be registered in other states than the ACTIVE state, current state is: " + state);
 		}
 
 		Product product = products.computeIfAbsent(productType, k -> new Product(this));

@@ -18,7 +18,11 @@ public final class ResourceRegistry implements IResourceRegistry {
 
 	private final Map<String, IResource> resources = new HashMap<>();
 	private OreRegistryState state;
-	
+
+	public ResourceRegistry() {
+		this.state = OreRegistryState.ACTIVE;
+	}
+
 	@Override
 	public IResource registerResource(String resourceType) {
 		Preconditions.checkNotNull(resourceType, "resourceType must not be null");
