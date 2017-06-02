@@ -13,3 +13,4 @@
 !/build.gradle
 !/gradlew
 !/gradlew.bat
+!/.travis.yml
