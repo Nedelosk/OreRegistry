@@ -18,7 +18,7 @@ import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
 import oreregistry.util.Product;
 import oreregistry.util.ProductUtils;
-import oreregistry.util.ResourceStorage;
+import oreregistry.util.ResourceRegistry;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -36,8 +36,8 @@ public class Config {
     }
 
     private static void loadConfig(Side side, File configFile) {
-        ResourceStorage storage = OreRegistry.registry.getResourceStorage();
-        storage.setState(OreRegistryState.CHOOSE);
+        ResourceRegistry registry = OreRegistry.registry;
+        registry.setState(OreRegistryState.CHOOSE);
         config = new Configuration(configFile, "1.0.0");
         String resourceCategory = "resource";
         String categoryComment = "This config category is used to chose the product variants that should be used by this mod.";
@@ -74,6 +74,6 @@ public class Config {
         if(config.hasChanged()) {
             config.save();
         }
-        storage.setState(OreRegistryState.INACTIVE);
+        registry.setState(OreRegistryState.INACTIVE);
     }
 }

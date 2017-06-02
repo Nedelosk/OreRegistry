@@ -11,43 +11,58 @@ import oreregistry.api.registry.IResource;
 import oreregistry.api.registry.IResourceRegistry;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class ResourceRegistry implements IResourceRegistry {
 
-	protected final ResourceStorage resourceStorage = new ResourceStorage();
+	private final Map<String, IResource> resources = new HashMap<>();
+	private OreRegistryState state;
 	
 	@Override
 	public IResource registerResource(String resourceType) {
 		Preconditions.checkNotNull(resourceType, "resourceType must not be null");
 
-		if (resourceStorage.hasResource(resourceType)) {
-			return resourceStorage.getResource(resourceType);
+		if (hasResource(resourceType)) {
+			return getResource(resourceType);
 		}
 
 		Resource resource = new Resource(resourceType);
-		resourceStorage.addResource(resource);
+		addResource(resource);
 		return resource;
 	}
 
 	@Override
 	public Map<String, IResource> getRegisteredResources() {
-		return Collections.unmodifiableMap(getResources());
-	}
-	
-	public ResourceStorage getResourceStorage() {
-		return resourceStorage;
+		return Collections.unmodifiableMap(resources);
 	}
 
 	@Override
-	public OreRegistryState getRegistryState() {
-		return resourceStorage.getState();
+	public OreRegistryState getState() {
+		return state;
 	}
 
 	/* INTERNAL */
-	
-	public Map<String, IResource> getResources() {
-		return resourceStorage.getResources();
+	public IResource getResource(String type){
+		return resources.get(type);
+	}
+
+	public boolean hasResource(String type){
+		return getResource(type) != null;
+	}
+
+	public void addResource(IResource resource){
+		if(state != OreRegistryState.ACTIVE){
+			return;
+		}
+		String type = resource.getType();
+		if(!resources.containsKey(type)){
+			resources.put(type, resource);
+		}
+	}
+
+	public void setState(OreRegistryState state) {
+		this.state = state;
 	}
 
 }

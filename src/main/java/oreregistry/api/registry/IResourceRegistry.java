@@ -33,6 +33,6 @@ public interface IResourceRegistry {
 	 *
 	 * You only can register resources and products in the active state.
 	 */
-	OreRegistryState getRegistryState();
+	OreRegistryState getState();
 
 }

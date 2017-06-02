@@ -67,16 +67,16 @@ public class PacketHandler {
 			threadListener.addScheduledTask(() -> {
 				EntityPlayer player = Minecraft.getMinecraft().player;
 				Preconditions.checkNotNull(player, "Tried to send data to client before the player exists.");
-				ResourceStorage storage = OreRegistry.registry.getResourceStorage();
+				ResourceRegistry registry = OreRegistry.registry;
 				
-				storage.setState(OreRegistryState.SYNCHRONIZE);
+				registry.setState(OreRegistryState.SYNCHRONIZE);
 				int size = buffer.readVarInt();
 				while(size > 0){
 					size--;
 					readResource(buffer);
 				}
 				
-				storage.setState(OreRegistryState.INACTIVE);
+				registry.setState(OreRegistryState.INACTIVE);
 			});
 		}
 	}
@@ -103,6 +103,7 @@ public class PacketHandler {
 	}
 	
 	private static void readResource(PacketBuffer buffer){
+		OreRegistry.unusedItems.clear();
 		String resourceType = buffer.readString(1024);
 		IResource resource = OreRegistry.registry.registerResource(resourceType);
 		int products = buffer.readVarInt();

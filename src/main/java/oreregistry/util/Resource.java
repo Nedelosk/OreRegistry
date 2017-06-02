@@ -35,7 +35,7 @@ public class Resource implements IResource {
 		Preconditions.checkNotNull(productType, "Product Type must not be null");
 		Preconditions.checkNotNull(productVariant.isEmpty(), "Product Variant must not be empty");
 
-		OreRegistryState state = OreRegistry.registry.getRegistryState();
+		OreRegistryState state = OreRegistry.registry.getState();
 		if(state != OreRegistryState.ACTIVE){
 			throw new UnsupportedOperationException("Products must not be registered only in other states than the ACTIVE state");
 		}

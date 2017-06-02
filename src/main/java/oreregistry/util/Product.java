@@ -31,7 +31,7 @@ public class Product implements IProduct{
 	}
 	
 	void choseProduct(ItemStack chosenProduct, int chosenProductIndex){
-		OreRegistryState state = OreRegistry.registry.getRegistryState();
+		OreRegistryState state = OreRegistry.registry.getState();
 		if(state != OreRegistryState.CHOOSE && state != OreRegistryState.SYNCHRONIZE){
 			return;
 		}
