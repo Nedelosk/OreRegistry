@@ -66,8 +66,8 @@ public class Config {
                     comment.append(">\n");
                 }
                 int variantIndex = config.getInt(productEntry.getKey(), resourceCategory + '.' + resourceEntry.getKey(), 0, 0, variants.size() - 1, comment.toString());
-                comment.setLength(0);
                 ProductUtils.chooseProduct(product, variantIndex);
+                comment.setLength(0);
             }
         }
 
