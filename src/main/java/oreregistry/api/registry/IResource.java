@@ -1,8 +1,9 @@
 package oreregistry.api.registry;
 
-import java.util.Map;
-
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  * A resource has a type (see {@link ResourceTypes} and contains several product types (see {@link ProductTypes}.
@@ -22,9 +23,9 @@ public interface IResource {
 	 *
 	 * @param productType The type of the product. For examples see {@link ProductTypes}.
 	 * @param product     The product provided by your mod.
-	 * @return the one chosen product that should be used by every mod.
+	 * @return the product that should be used by every mod.
 	 */
-	ItemStack registerProduct(String productType, ItemStack product);
+	IProduct registerProduct(String productType, ItemStack product);
 
 	/**
 	 * 
@@ -32,6 +33,13 @@ public interface IResource {
 	 * @return True if it is already a product registered with this type.
 	 */
 	boolean hasProduct(String productType);
+
+	/**
+	 * @param productType The type of the product. For examples see {@link ProductTypes}.
+	 * @return The product of the productType, if one is registered.
+	 */
+	@Nullable
+	IProduct getProduct(String productType);
 	
 	/**
 	 * Returns a read-only map containing product types and their associated products.

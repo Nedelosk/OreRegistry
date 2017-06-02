@@ -1,13 +1,14 @@
 package oreregistry.util;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
 import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
+
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Resource implements IResource {
 	private final String type;
@@ -23,18 +24,25 @@ public class Resource implements IResource {
 	}
 
 	@Override
-	public ItemStack registerProduct(String productType, ItemStack productVariant) {
+	public IProduct registerProduct(String productType, ItemStack productVariant) {
 		Preconditions.checkNotNull(productType, "Product Type must not be null");
+		Preconditions.checkNotNull(productVariant.isEmpty(), "Product Variant must not be empty");
 
 		Product product = products.computeIfAbsent(productType, k -> new Product(this));
 		product.addVariant(productVariant);
-		return product.getChosenProduct().copy();
+		return product;
 	}
 	
 	@Override
 	public boolean hasProduct(String productType) {
+		return getProduct(productType) != null;
+	}
+
+	@Nullable
+	@Override
+	public IProduct getProduct(String productType) {
 		Preconditions.checkNotNull(productType, "Product Type must not be null");
-		return products.get(productType) != null;
+		return products.get(productType);
 	}
 
 	@Override

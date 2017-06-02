@@ -1,33 +1,40 @@
 package oreregistry;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static oreregistry.api.registry.ProductTypes.*;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.registry.IResource;
 import oreregistry.api.registry.IResourceRegistry;
 import oreregistry.api.registry.ResourceTypes;
+import oreregistry.config.Config;
 import oreregistry.config.Constants;
 import oreregistry.network.PacketHandler;
 import oreregistry.util.ResourceInfo;
 import oreregistry.util.ResourceRegistry;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import static oreregistry.api.registry.ProductTypes.*;
+
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = "[1.11]")
 public class OreRegistry {
-	
+
+	@Mod.Instance(Constants.MOD_ID)
+	public static OreRegistry instance;
+
 	public static final ResourceRegistry registry;
 	public static final ResourceInfo helper;
 	public static final List<ItemStack> unusedItems = new ArrayList<>();
+	public static File configFile;
 
 	static {
 		OreRegistryApi.registry = registry = new ResourceRegistry();
@@ -39,8 +46,14 @@ public class OreRegistry {
 		registerVanilla(OreRegistryApi.registry);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		new PacketHandler();
+		configFile = event.getSuggestedConfigurationFile();
 	}
-	
+
+	@Mod.EventHandler
+	public static void init(FMLInitializationEvent event) {
+		Config.load(event.getSide());
+	}
+
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 	}
@@ -87,5 +100,9 @@ public class OreRegistry {
 		coal.registerProduct(GEM, new ItemStack(Items.COAL));
 		coal.registerProduct(BLOCK, new ItemStack(Blocks.COAL_BLOCK));
 		coal.registerProduct(ORE, new ItemStack(Blocks.COAL_ORE));
+	}
+
+	public File getConfigFile(){
+		return configFile;
 	}
 }

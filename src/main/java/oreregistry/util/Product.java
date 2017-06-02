@@ -1,15 +1,16 @@
 package oreregistry.util;
 
+import com.google.common.base.Preconditions;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import oreregistry.OreRegistry;
+import oreregistry.api.ChoseProductEvent;
+import oreregistry.api.registry.IProduct;
+import oreregistry.api.registry.IResource;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.google.common.base.Preconditions;
-
-import net.minecraft.item.ItemStack;
-import oreregistry.OreRegistry;
-import oreregistry.api.registry.IProduct;
-import oreregistry.api.registry.IResource;
 
 public class Product implements IProduct{
 
@@ -28,6 +29,7 @@ public class Product implements IProduct{
 			return;
 		}
 		this.chosenProduct = chosenProduct;
+		MinecraftForge.EVENT_BUS.post(new ChoseProductEvent(this, chosenProduct));
 		OreRegistry.helper.registerResourceItem(chosenProduct, resource);
 	}
 	
@@ -43,7 +45,7 @@ public class Product implements IProduct{
 		}
 		return chosenProduct.copy();
 	}
-	
+
 	@Override
 	public IResource getResource() {
 		return resource;
@@ -55,11 +57,6 @@ public class Product implements IProduct{
 		variant = variant.copy();
 		variant.setCount(1);
 		this.variants.add(variant);
-		if(chosenProduct.isEmpty()){
-			choseProduct(variant.copy());
-		}else{
-			OreRegistry.unusedItems.add(variant.copy());
-		}
 	}
 	
 }

@@ -1,9 +1,9 @@
 package oreregistry.util;
 
+import oreregistry.api.registry.IResource;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import oreregistry.api.registry.IResource;
 
 public class ResourceStorage {
 
@@ -53,7 +53,7 @@ public class ResourceStorage {
 	}
 	
 	public enum State{
-		ACTIVE, SYNCHRONIZE, FINISH;
+		ACTIVE, SYNCHRONIZE, CHOSE, FINISH;
 	}
 	
 }
