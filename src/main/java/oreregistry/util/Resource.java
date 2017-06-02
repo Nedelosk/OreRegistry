@@ -7,6 +7,8 @@ package oreregistry.util;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
+import oreregistry.OreRegistry;
+import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
 
@@ -32,6 +34,11 @@ public class Resource implements IResource {
 	public IProduct registerProduct(String productType, ItemStack productVariant) {
 		Preconditions.checkNotNull(productType, "Product Type must not be null");
 		Preconditions.checkNotNull(productVariant.isEmpty(), "Product Variant must not be empty");
+
+		OreRegistryState state = OreRegistry.registry.getRegistryState();
+		if(state != OreRegistryState.ACTIVE){
+			throw new UnsupportedOperationException("Products must not be registered only in other states than the ACTIVE state");
+		}
 
 		Product product = products.computeIfAbsent(productType, k -> new Product(this));
 		product.addVariant(productVariant);

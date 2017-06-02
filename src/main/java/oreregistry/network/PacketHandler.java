@@ -10,7 +10,6 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IThreadListener;
 import net.minecraftforge.common.util.FakePlayer;
@@ -25,9 +24,7 @@ import oreregistry.OreRegistry;
 import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
-import oreregistry.util.Log;
-import oreregistry.util.Resource;
-import oreregistry.util.ResourceStorage;
+import oreregistry.util.*;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -51,13 +48,7 @@ public class PacketHandler {
 		buffer.writeVarInt(resources.size());
 		for(Entry<String, IResource> resourceEntry : resources.entrySet()){
 			IResource resource = resourceEntry.getValue();
-			buffer.writeString(resource.getType());
-			Map<String, IProduct> products = resource.getRegisteredProducts();
-			buffer.writeVarInt(products.size());
-			for(Entry<String, IProduct> product : products.entrySet()){
-				buffer.writeString(product.getKey());
-				buffer.writeItemStack(product.getValue().getChosenProduct());
-			}
+			writeResource(buffer, resource);
 		}
 		channel.sendTo(new FMLProxyPacket(buffer, channelId), (EntityPlayerMP)player);
 	}
@@ -82,27 +73,49 @@ public class PacketHandler {
 				int size = buffer.readVarInt();
 				while(size > 0){
 					size--;
-					readResource(buffer, storage);
+					readResource(buffer);
 				}
 				
 				storage.setState(OreRegistryState.INACTIVE);
 			});
 		}
 	}
+
+	private static void writeResource(PacketBuffer buffer, IResource resource){
+		String resourceType = resource.getType();
+		buffer.writeString(resourceType);
+		Map<String, IProduct> products = resource.getRegisteredProducts();
+		buffer.writeVarInt(products.size());
+		for(Entry<String, IProduct> productEntry : products.entrySet()){
+			String productType = productEntry.getKey();
+			try {
+				buffer.writeString(productType);
+				IProduct product = productEntry.getValue();
+				if(product instanceof Product){
+					buffer.writeInt(((Product)product).getChosenProductIndex());
+				}else{
+					buffer.writeInt(0);
+				}
+			}catch(Exception e){
+				Log.error("Failed to synchronise a product of the type " + productType + " with the client.", e);
+			}
+		}
+	}
 	
-	private static void readResource(PacketBuffer buffer, ResourceStorage storage){
+	private static void readResource(PacketBuffer buffer){
 		String resourceType = buffer.readString(1024);
-		IResource resource = new Resource(resourceType);
-		storage.replaceResource(resource);
+		IResource resource = OreRegistry.registry.registerResource(resourceType);
 		int products = buffer.readVarInt();
 		for(int i = 0;i < products;i++){
 			String productType = buffer.readString(1024);
 			try{
-				ItemStack product;
-				product = buffer.readItemStack();
-				resource.registerProduct(productType, product);
+				IProduct product = resource.getProduct(productType);
+				int index = buffer.readInt();
+				if(product instanceof Product){
+					ProductUtils.chooseProduct((Product) product, index);
+				}
 			}catch(Exception e){
-				Log.error("Failed to read a product of  the type " + productType + ".", e);
+				Log.error("Failed to synchronise a product of the type " + productType + " with the server.", e);
 			}
 		}
 	}

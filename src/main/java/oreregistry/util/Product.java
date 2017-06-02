@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import oreregistry.OreRegistry;
 import oreregistry.api.ChoseProductEvent;
+import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
 
@@ -22,22 +23,32 @@ public class Product implements IProduct{
 	private final List<ItemStack> variants = new ArrayList<>();
 	private final IResource resource;
 	private ItemStack chosenProduct;
+	private int chosenProductIndex;
 	
 	public Product(IResource resource) {
 		this.resource = resource;
 		this.chosenProduct = ItemStack.EMPTY;
 	}
 	
-	public void choseProduct(ItemStack chosenProduct){
+	void choseProduct(ItemStack chosenProduct, int chosenProductIndex){
+		OreRegistryState state = OreRegistry.registry.getRegistryState();
+		if(state != OreRegistryState.CHOOSE && state != OreRegistryState.SYNCHRONIZE){
+			return;
+		}
 		if(chosenProduct.isEmpty()){
 			this.chosenProduct = ItemStack.EMPTY;
 			return;
 		}
+		this.chosenProductIndex = chosenProductIndex;
 		this.chosenProduct = chosenProduct;
-		MinecraftForge.EVENT_BUS.post(new ChoseProductEvent(this, chosenProduct));
+		MinecraftForge.EVENT_BUS.post(new ChoseProductEvent(this, chosenProduct, chosenProductIndex));
 		OreRegistry.helper.registerResourceItem(chosenProduct, resource);
 	}
-	
+
+	public int getChosenProductIndex() {
+		return chosenProductIndex;
+	}
+
 	@Override
 	public List<ItemStack> getVariants() {
 		return Collections.unmodifiableList(variants);
@@ -56,7 +67,7 @@ public class Product implements IProduct{
 		return resource;
 	}
 	
-	public void addVariant(ItemStack variant){
+	void addVariant(ItemStack variant){
 		Preconditions.checkNotNull(variant, "Product must not be null");
 		Preconditions.checkArgument(!variant.isEmpty(), "Product must not be empty");
 		variant = variant.copy();

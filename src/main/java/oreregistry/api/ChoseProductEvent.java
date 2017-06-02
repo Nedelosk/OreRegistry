@@ -13,10 +13,12 @@ public class ChoseProductEvent extends Event{
 
     private final IProduct product;
     private final ItemStack chosenProduct;
+    private final int index;
 
-    public ChoseProductEvent(IProduct product, ItemStack chosenProduct) {
+    public ChoseProductEvent(IProduct product, ItemStack chosenProduct, int index) {
         this.product = product;
         this.chosenProduct = chosenProduct;
+        this.index = index;
     }
 
     public IProduct getProduct() {
@@ -25,5 +27,9 @@ public class ChoseProductEvent extends Event{
 
     public ItemStack getChosenProduct() {
         return chosenProduct;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }
