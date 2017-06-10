@@ -5,7 +5,13 @@
  */
 package oreregistry.api;
 
+import oreregistry.api.registry.IResourceRegistry;
 
+/**
+ * The possible states of the OR registry process.
+ * <p>
+ * Get the current state from {@link IResourceRegistry#getState()}
+ */
 public enum OreRegistryState {
     /**
      * This state is active if in the pre init phase of fml.

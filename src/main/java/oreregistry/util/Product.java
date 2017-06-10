@@ -6,28 +6,33 @@
 package oreregistry.util;
 
 import com.google.common.base.Preconditions;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.common.MinecraftForge;
+
 import oreregistry.OreRegistry;
 import oreregistry.api.ChoseProductEvent;
 import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IProduct;
 import oreregistry.api.registry.IResource;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class Product implements IProduct{
 
 	private final List<ItemStack> variants = new ArrayList<>();
 	private final IResource resource;
+	private final String type;
 	private ItemStack chosenProduct;
 	private int chosenProductIndex;
 	
-	public Product(IResource resource) {
+	public Product(IResource resource, String type) {
 		this.resource = resource;
 		this.chosenProduct = ItemStack.EMPTY;
+		this.type = type;
 	}
 	
 	void choseProduct(ItemStack chosenProduct, int chosenProductIndex){
@@ -44,7 +49,12 @@ public class Product implements IProduct{
 		MinecraftForge.EVENT_BUS.post(new ChoseProductEvent(this, chosenProduct, chosenProductIndex));
 		OreRegistry.helper.registerResourceItem(chosenProduct, resource);
 	}
-
+	
+	@Override
+	public String getType() {
+		return type;
+	}
+	
 	public int getChosenProductIndex() {
 		return chosenProductIndex;
 	}

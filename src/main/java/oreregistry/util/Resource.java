@@ -6,16 +6,18 @@
 package oreregistry.util;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.item.ItemStack;
-import oreregistry.OreRegistry;
-import oreregistry.api.OreRegistryState;
-import oreregistry.api.registry.IProduct;
-import oreregistry.api.registry.IResource;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import net.minecraft.item.ItemStack;
+
+import oreregistry.OreRegistry;
+import oreregistry.api.OreRegistryState;
+import oreregistry.api.registry.IProduct;
+import oreregistry.api.registry.IResource;
 
 public class Resource implements IResource {
 	private final String type;
@@ -40,7 +42,7 @@ public class Resource implements IResource {
 			throw new UnsupportedOperationException("Products must not be registered in other states than the ACTIVE state, current state is: " + state);
 		}
 
-		Product product = products.computeIfAbsent(productType, k -> new Product(this));
+		Product product = products.computeIfAbsent(productType, k -> new Product(this, k));
 		product.addVariant(productVariant);
 		return product;
 	}

@@ -5,10 +5,10 @@
  */
 package oreregistry.api.registry;
 
+import java.util.Map;
+
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.OreRegistryState;
-
-import java.util.Map;
 
 /**
  * Register resources and get the chosen resource for each type.
