@@ -5,10 +5,10 @@
  */
 package oreregistry.api.registry;
 
-import net.minecraft.item.ItemStack;
-
 import javax.annotation.Nullable;
 import java.util.Map;
+
+import net.minecraft.item.ItemStack;
 
 /**
  * A resource has a type (see {@link ResourceTypes} and contains several product types (see {@link ProductTypes}.

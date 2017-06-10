@@ -5,15 +5,23 @@
  */
 package oreregistry;
 
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.common.MinecraftForge;
+
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.registry.IResource;
 import oreregistry.api.registry.IResourceRegistry;
@@ -23,22 +31,24 @@ import oreregistry.config.Constants;
 import oreregistry.network.PacketHandler;
 import oreregistry.util.ResourceInfo;
 import oreregistry.util.ResourceRegistry;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import static oreregistry.api.registry.ProductTypes.*;
+import static oreregistry.api.registry.ProductTypes.BLOCK;
+import static oreregistry.api.registry.ProductTypes.DUST;
+import static oreregistry.api.registry.ProductTypes.GEM;
+import static oreregistry.api.registry.ProductTypes.INGOT;
+import static oreregistry.api.registry.ProductTypes.NUGGET;
+import static oreregistry.api.registry.ProductTypes.ORE;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = "[1.11]")
 public class OreRegistry {
 
+	@Nullable
 	@Mod.Instance(Constants.MOD_ID)
 	public static OreRegistry instance;
 
 	public static final ResourceRegistry registry;
 	public static final ResourceInfo helper;
 	public static final List<ItemStack> unusedItems = new ArrayList<>();
+	@Nullable
 	public static File configFile;
 
 	static {
@@ -69,6 +79,7 @@ public class OreRegistry {
 		iron.registerProduct(NUGGET, new ItemStack(Items.field_191525_da));
 		iron.registerProduct(BLOCK, new ItemStack(Blocks.IRON_BLOCK));
 		iron.registerProduct(ORE, new ItemStack(Blocks.IRON_ORE));
+		iron.registerProduct(ORE, new ItemStack(Blocks.BRICK_BLOCK));
 
 		final IResource gold = resourceRegistry.registerResource(ResourceTypes.GOLD);
 		gold.registerProduct(INGOT, new ItemStack(Items.GOLD_INGOT));

@@ -5,19 +5,27 @@
  */
 package oreregistry;
 
+import java.util.List;
+
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.info.IProductInfo;
 import oreregistry.network.PacketHandler;
-
-import java.util.List;
+import oreregistry.util.ProductUtils;
 
 public class EventHandler {
 
@@ -31,6 +39,25 @@ public class EventHandler {
 				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.resource.name") + product.getResourceType());
 				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.product.type.name") + product.getProductType());
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void handleTooltip(PlayerDropsEvent event) {
+		for(EntityItem entityItem : event.getDrops()){
+			ItemStack itemStack = ProductUtils.tryUnifyItem(entityItem.getEntityItem());
+			if(!itemStack.isEmpty()){
+				entityItem.setEntityItemStack(itemStack);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void handleTooltip(ItemTossEvent event) {
+		EntityItem entityItem = event.getEntityItem();
+		ItemStack itemStack = ProductUtils.tryUnifyItem(entityItem.getEntityItem());
+		if(!itemStack.isEmpty()){
+			entityItem.setEntityItemStack(itemStack);
 		}
 	}
 	

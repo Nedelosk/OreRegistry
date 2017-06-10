@@ -5,8 +5,10 @@
  */
 package oreregistry.api.registry;
 
+import java.util.Collection;
 import java.util.Map;
 
+import oreregistry.api.IUnificationHandler;
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.OreRegistryState;
 
@@ -21,13 +23,23 @@ public interface IResourceRegistry {
 	 * Register a type of resource added by your mod.
 	 */
 	IResource registerResource(String resourceType);
-
+	
 	/**
 	 * Returns a read-only map containing resource names and their associated
 	 * resources.
 	 */
 	Map<String, IResource> getRegisteredResources();
-
+	
+	/**
+	 * Register a {@link IUnificationHandler}.
+	 */
+	void registerUnificationHandler(String resourceType, IUnificationHandler unificationHandler);
+	
+	/**
+	 * Returns a read-only map containing all {@link IUnificationHandler}s of the resource of this type.
+	 */
+	Collection<IUnificationHandler> getUnificationHandlers(String resourceType);
+	
 	/**
 	 * The current state of the registry process.
 	 *
