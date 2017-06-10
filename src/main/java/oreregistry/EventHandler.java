@@ -5,6 +5,8 @@
  */
 package oreregistry;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.entity.item.EntityItem;
@@ -16,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.event.world.BlockEvent;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -44,7 +47,22 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
-	public void handleTooltip(PlayerDropsEvent event) {
+	public void handleDrops(BlockEvent.HarvestDropsEvent event) {
+		List<ItemStack> drops = event.getDrops();
+		List<ItemStack> newDrops = new ArrayList<>();
+		Iterator<ItemStack> dropsIterator = event.getDrops().iterator();
+		while(dropsIterator.hasNext()){
+			ItemStack itemStack = ProductUtils.tryUnifyItem(dropsIterator.next());
+			if(!itemStack.isEmpty()){
+				dropsIterator.remove();
+				newDrops.add(itemStack);
+			}
+		}
+		drops.addAll(newDrops);
+	}
+	
+	@SubscribeEvent
+	public void handlePlayerDrops(PlayerDropsEvent event) {
 		for(EntityItem entityItem : event.getDrops()){
 			ItemStack itemStack = ProductUtils.tryUnifyItem(entityItem.getEntityItem());
 			if(!itemStack.isEmpty()){
@@ -54,7 +72,7 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
-	public void handleTooltip(ItemTossEvent event) {
+	public void handleToss(ItemTossEvent event) {
 		EntityItem entityItem = event.getEntityItem();
 		ItemStack itemStack = ProductUtils.tryUnifyItem(entityItem.getEntityItem());
 		if(!itemStack.isEmpty()){
