@@ -109,6 +109,32 @@ allprojects {
     }
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+	from zipTree('build/retromapping/retromappedReplacedMain.jar') // Not sure if this is how Abrar designed it, but grab the remapped src
+	classifier = 'sources'
+}
+
+task apiJar(type: Jar) {
+	// TODO: when FG bug is fixed, remove allSource from the api jar.
+	// https://github.com/MinecraftForge/ForgeGradle/issues/369
+	// Gradle should be able to pull them from the -sources jar.
+	from sourceSets.main.allSource
+	from sourceSets.main.output
+	include 'oreregistry/api/**'
+	classifier = 'api'
+}
+
+artifacts {
+	archives javadocJar
+	archives sourcesJar
+	archives apiJar
+}
+
 uploadArchives {
     repositories {
         if (project.hasProperty('mavenDir')) {
