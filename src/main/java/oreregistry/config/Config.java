@@ -5,12 +5,20 @@
  */
 package oreregistry.config;
 
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.common.config.Configuration;
+
 import net.minecraftforge.fml.relauncher.Side;
+
 import oreregistry.OreRegistry;
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.OreRegistryState;
@@ -19,11 +27,6 @@ import oreregistry.api.registry.IResource;
 import oreregistry.util.Product;
 import oreregistry.util.ProductUtils;
 import oreregistry.util.ResourceRegistry;
-
-import javax.annotation.Nullable;
-import java.io.File;
-import java.util.List;
-import java.util.Map;
 
 public class Config {
 
@@ -39,6 +42,7 @@ public class Config {
         ResourceRegistry registry = OreRegistry.registry;
         registry.setState(OreRegistryState.CHOOSE);
         config = new Configuration(configFile, "1.0.0");
+        config.load();
         String resourceCategory = "resource";
         String categoryComment = "This config category is used to chose the product variants that should be used by this mod.";
         categoryComment+="\n\n";
@@ -70,10 +74,8 @@ public class Config {
                 comment.setLength(0);
             }
         }
-
-        if(config.hasChanged()) {
-            config.save();
-        }
+        
+        config.save();
         registry.setState(OreRegistryState.INACTIVE);
     }
 }

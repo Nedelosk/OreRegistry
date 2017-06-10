@@ -24,5 +24,10 @@ public interface IProductInfo {
 	 * The type of the product. For examples see {@link ProductTypes}.
 	 */
 	String getProductType();
+	
+	/**
+	 * true if this variant is the chosen variant.
+	 */
+	boolean isChosenVariant();
 
 }

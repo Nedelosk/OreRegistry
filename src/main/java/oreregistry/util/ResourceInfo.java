@@ -6,12 +6,6 @@
 package oreregistry.util;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import oreregistry.api.info.IProductInfo;
-import oreregistry.api.info.IResourceInfo;
-import oreregistry.api.registry.IProduct;
-import oreregistry.api.registry.IResource;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -19,6 +13,14 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
+import oreregistry.api.info.IProductInfo;
+import oreregistry.api.info.IResourceInfo;
+import oreregistry.api.registry.IProduct;
+import oreregistry.api.registry.IResource;
 
 public class ResourceInfo implements IResourceInfo {
 	private final Map<Item, List<IResource>> resourceItems = new IdentityHashMap<>();
@@ -35,10 +37,13 @@ public class ResourceInfo implements IResourceInfo {
 			for (IResource resource : resources) {
 				Map<String, IProduct> registeredProducts = resource.getRegisteredProducts();
 				for (Entry<String, IProduct> entry : registeredProducts.entrySet()) {
-					ItemStack product = entry.getValue().getChosenProduct();
-					if (ItemStack.areItemsEqual(product, itemStack) && ItemStack.areItemStackTagsEqual(itemStack, product)) {
-						String productType = entry.getKey();
-						return new ProductInfo(resource.getType(), productType);
+					IProduct product = entry.getValue();
+					for(ItemStack variant : product.getVariants()) {
+						if (ProductUtils.needUnification(itemStack, variant)) {
+							String productType = entry.getKey();
+							ItemStack chosenProduct = product.getChosenProduct();
+							return new ProductInfo(resource.getType(), productType, ProductUtils.needUnification(itemStack, chosenProduct));
+						}
 					}
 				}
 			}

@@ -52,12 +52,12 @@ public class ProductUtils {
             for(IUnificationHandler handler : OreRegistryApi.registry.getUnificationHandlers(resource.getType())){
                 handler.onUnifyItem(oldStack, newStack, product);
             }
-            return oldStack;
+            return newStack;
         }
         return ItemStack.EMPTY;
     }
     
-    private static boolean needUnification(ItemStack oldStack, ItemStack newStack){
+    public static boolean needUnification(ItemStack oldStack, ItemStack newStack){
         return ItemStack.areItemsEqual(oldStack, newStack) && ItemStack.areItemStackTagsEqual(oldStack, newStack);
     }
 }

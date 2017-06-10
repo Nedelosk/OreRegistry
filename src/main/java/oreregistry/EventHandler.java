@@ -36,8 +36,9 @@ public class EventHandler {
 			IProductInfo product = OreRegistryApi.info.getProductInfo(event.getItemStack());
 			if (product != null) {
 				List<String> tooltip = event.getToolTip();
-				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.resource.name") + product.getResourceType());
-				tooltip.add(TextFormatting.DARK_GRAY + I18n.translateToLocal("or.product.type.name") + product.getProductType());
+				boolean isChosen = product.isChosenVariant();
+				tooltip.add((isChosen ? TextFormatting.GOLD : TextFormatting.DARK_GRAY).toString() + I18n.translateToLocal("or.resource.name") + product.getResourceType());
+				tooltip.add((isChosen ? TextFormatting.GOLD : TextFormatting.DARK_GRAY).toString() + I18n.translateToLocal("or.product.type.name") + product.getProductType());
 			}
 		}
 	}

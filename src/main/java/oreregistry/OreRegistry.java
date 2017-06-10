@@ -79,7 +79,6 @@ public class OreRegistry {
 		iron.registerProduct(NUGGET, new ItemStack(Items.field_191525_da));
 		iron.registerProduct(BLOCK, new ItemStack(Blocks.IRON_BLOCK));
 		iron.registerProduct(ORE, new ItemStack(Blocks.IRON_ORE));
-		iron.registerProduct(ORE, new ItemStack(Blocks.BRICK_BLOCK));
 
 		final IResource gold = resourceRegistry.registerResource(ResourceTypes.GOLD);
 		gold.registerProduct(INGOT, new ItemStack(Items.GOLD_INGOT));

@@ -11,10 +11,12 @@ public class ProductInfo implements IProductInfo {
 
 	private final String resourceType;
 	private final String productType;
+	private final boolean isChosen;
 
-	public ProductInfo(String resourceType, String productType) {
+	public ProductInfo(String resourceType, String productType, boolean isChosen) {
 		this.resourceType = resourceType;
 		this.productType = productType;
+		this.isChosen = isChosen;
 	}
 
 	@Override
@@ -26,5 +28,9 @@ public class ProductInfo implements IProductInfo {
 	public String getProductType() {
 		return productType;
 	}
-
+	
+	@Override
+	public boolean isChosenVariant() {
+		return isChosen;
+	}
 }

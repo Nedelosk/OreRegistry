@@ -47,7 +47,6 @@ public class Product implements IProduct{
 		this.chosenProductIndex = chosenProductIndex;
 		this.chosenProduct = chosenProduct;
 		MinecraftForge.EVENT_BUS.post(new ChoseProductEvent(this, chosenProduct, chosenProductIndex));
-		OreRegistry.helper.registerResourceItem(chosenProduct, resource);
 	}
 	
 	@Override
@@ -82,6 +81,7 @@ public class Product implements IProduct{
 		Preconditions.checkArgument(!variant.isEmpty(), "Product must not be empty");
 		variant = variant.copy();
 		variant.setCount(1);
+		OreRegistry.helper.registerResourceItem(variant, resource);
 		this.variants.add(variant);
 	}
 	
