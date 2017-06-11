@@ -5,8 +5,11 @@
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@API(apiVersion = "@VERSION@", owner = "oreregistry", provides = "oreregistryAPI")
 package oreregistry.api;
 
-import mcp.MethodsReturnNonnullByDefault;
-
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import net.minecraftforge.fml.common.API;
+
+import mcp.MethodsReturnNonnullByDefault;

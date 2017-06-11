@@ -55,8 +55,8 @@ public class ResourceInfo implements IResourceInfo {
 	}
 	
 	@Override
-	public ItemStack tryUnifyItem(ItemStack oldStack) {
-		IProductInfo productInfo = getProductInfo(oldStack);
+	public ItemStack tryUnifyItem(ItemStack itemToUnify) {
+		IProductInfo productInfo = getProductInfo(itemToUnify);
 		if(productInfo != null){
 			IResource resource = OreRegistry.registry.getResource(productInfo.getResourceType());
 			if(resource == null){
@@ -66,15 +66,15 @@ public class ResourceInfo implements IResourceInfo {
 			if(product == null){
 				return ItemStack.EMPTY;
 			}
-			ItemStack newStack = product.getChosenProduct();
-			if(ProductUtils.needUnification(oldStack, newStack)){
+			ItemStack unifiedItem = product.getChosenProduct();
+			if(ProductUtils.needUnification(itemToUnify, unifiedItem)){
 				return ItemStack.EMPTY;
 			}
-			newStack.setCount(oldStack.getCount());
+			unifiedItem.setCount(itemToUnify.getCount());
 			for(IUnificationHandler handler : OreRegistryApi.registry.getUnificationHandlers(resource.getType())){
-				handler.onUnifyItem(oldStack, newStack, product);
+				handler.onUnifyItem(itemToUnify, unifiedItem, product);
 			}
-			return newStack;
+			return unifiedItem;
 		}
 		return ItemStack.EMPTY;
 	}
