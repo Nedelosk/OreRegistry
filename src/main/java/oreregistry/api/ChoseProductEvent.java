@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import oreregistry.api.registry.IProduct;
 
 /**
- * This is fired when OR has chosen a variant as his chosen variant of a product.
+ * This is fired when Ore Registry has chosen a variant as his chosen variant of a product.
  */
 public class ChoseProductEvent extends Event{
     

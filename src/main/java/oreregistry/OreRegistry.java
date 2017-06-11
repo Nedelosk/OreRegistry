@@ -19,9 +19,9 @@ import net.minecraftforge.common.MinecraftForge;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import oreregistry.api.CompleteChoosingEvent;
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.registry.IResource;
 import oreregistry.api.registry.IResourceRegistry;
@@ -57,7 +57,7 @@ public class OreRegistry {
 	}
 
 	@Mod.EventHandler
-	public static void preInit(FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) {
 		registerVanilla(OreRegistryApi.registry);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		new PacketHandler();
@@ -65,15 +65,12 @@ public class OreRegistry {
 	}
 
 	@Mod.EventHandler
-	public static void init(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
+		MinecraftForge.EVENT_BUS.post(new CompleteChoosingEvent());
 		Config.load(event.getSide());
 	}
 
-	@Mod.EventHandler
-	public static void postInit(FMLPostInitializationEvent event) {
-	}
-
-	private static void registerVanilla(IResourceRegistry resourceRegistry) {
+	private void registerVanilla(IResourceRegistry resourceRegistry) {
 		final IResource iron = resourceRegistry.registerResource(ResourceTypes.IRON);
 		iron.registerProduct(INGOT, new ItemStack(Items.IRON_INGOT));
 		iron.registerProduct(NUGGET, new ItemStack(Items.field_191525_da));
