@@ -5,10 +5,11 @@
  */
 package oreregistry.api.info;
 
-import net.minecraft.item.ItemStack;
-import oreregistry.api.OreRegistryApi;
-
 import javax.annotation.Nullable;
+
+import net.minecraft.item.ItemStack;
+
+import oreregistry.api.OreRegistryApi;
 
 /**
  * Get information about registered products.
@@ -21,4 +22,11 @@ public interface IResourceInfo {
 	 */
 	@Nullable
 	IProductInfo getProductInfo(ItemStack product);
+	
+	/**
+	 * Tries to unify a item.
+	 * <p>
+	 * Returns an empty ItemStack if the item is already unified or if the item is not a variant of a registered product.
+	 */
+	ItemStack tryUnifyItem(ItemStack itemStack);
 }

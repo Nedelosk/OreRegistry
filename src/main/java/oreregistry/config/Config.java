@@ -32,6 +32,7 @@ public class Config {
 
     @Nullable
     public static Configuration config;
+    public static boolean unifyItems = true;
 
     public static void load(Side side) {
         File configFile = OreRegistry.instance.getConfigFile();
@@ -74,6 +75,8 @@ public class Config {
                 comment.setLength(0);
             }
         }
+    
+        unifyItems = config.getBoolean("unify", "tweaks", unifyItems, "If this is true ore registry unifies every item that dropped in the world or is tossed by the player to the chosen variant of his product if the item is a variant of a product.");
         
         config.save();
         registry.setState(OreRegistryState.INACTIVE);

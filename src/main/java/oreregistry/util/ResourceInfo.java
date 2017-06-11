@@ -17,6 +17,9 @@ import java.util.Map.Entry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import oreregistry.OreRegistry;
+import oreregistry.api.IUnificationHandler;
+import oreregistry.api.OreRegistryApi;
 import oreregistry.api.info.IProductInfo;
 import oreregistry.api.info.IResourceInfo;
 import oreregistry.api.registry.IProduct;
@@ -50,7 +53,32 @@ public class ResourceInfo implements IResourceInfo {
 		}
 		return null;
 	}
-
+	
+	@Override
+	public ItemStack tryUnifyItem(ItemStack oldStack) {
+		IProductInfo productInfo = getProductInfo(oldStack);
+		if(productInfo != null){
+			IResource resource = OreRegistry.registry.getResource(productInfo.getResourceType());
+			if(resource == null){
+				return ItemStack.EMPTY;
+			}
+			IProduct product = resource.getProduct(productInfo.getProductType());
+			if(product == null){
+				return ItemStack.EMPTY;
+			}
+			ItemStack newStack = product.getChosenProduct();
+			if(ProductUtils.needUnification(oldStack, newStack)){
+				return ItemStack.EMPTY;
+			}
+			newStack.setCount(oldStack.getCount());
+			for(IUnificationHandler handler : OreRegistryApi.registry.getUnificationHandlers(resource.getType())){
+				handler.onUnifyItem(oldStack, newStack, product);
+			}
+			return newStack;
+		}
+		return ItemStack.EMPTY;
+	}
+	
 	public void registerResourceItem(ItemStack itemStack, IResource resource) {
 		Item item = itemStack.getItem();
 		List<IResource> resources = resourceItems.computeIfAbsent(item, k -> new ArrayList<>());

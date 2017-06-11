@@ -27,6 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.info.IProductInfo;
+import oreregistry.config.Config;
 import oreregistry.network.PacketHandler;
 import oreregistry.util.ProductUtils;
 
@@ -48,11 +49,14 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void handleDrops(BlockEvent.HarvestDropsEvent event) {
+		if(Config.unifyItems){
+			return;
+		}
 		List<ItemStack> drops = event.getDrops();
 		List<ItemStack> newDrops = new ArrayList<>();
-		Iterator<ItemStack> dropsIterator = event.getDrops().iterator();
+		Iterator<ItemStack> dropsIterator = drops.iterator();
 		while(dropsIterator.hasNext()){
-			ItemStack itemStack = ProductUtils.tryUnifyItem(dropsIterator.next());
+			ItemStack itemStack = OreRegistryApi.info.tryUnifyItem(dropsIterator.next());
 			if(!itemStack.isEmpty()){
 				dropsIterator.remove();
 				newDrops.add(itemStack);
@@ -63,8 +67,11 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void handlePlayerDrops(PlayerDropsEvent event) {
+		if(Config.unifyItems){
+			return;
+		}
 		for(EntityItem entityItem : event.getDrops()){
-			ItemStack itemStack = ProductUtils.tryUnifyItem(entityItem.getEntityItem());
+			ItemStack itemStack = OreRegistryApi.info.tryUnifyItem(entityItem.getEntityItem());
 			if(!itemStack.isEmpty()){
 				entityItem.setEntityItemStack(itemStack);
 			}
@@ -73,8 +80,11 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void handleToss(ItemTossEvent event) {
+		if(Config.unifyItems){
+			return;
+		}
 		EntityItem entityItem = event.getEntityItem();
-		ItemStack itemStack = ProductUtils.tryUnifyItem(entityItem.getEntityItem());
+		ItemStack itemStack = OreRegistryApi.info.tryUnifyItem(entityItem.getEntityItem());
 		if(!itemStack.isEmpty()){
 			entityItem.setEntityItemStack(itemStack);
 		}
