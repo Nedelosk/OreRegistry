@@ -16,6 +16,7 @@ import oreregistry.api.registry.IResourceRegistry;
  * You can register this handler with {@link IResourceRegistry#registerUnificationHandler(String, IUnificationHandler)}
  * and get all handlers of a resource with {@link IResourceRegistry#getUnificationHandlers(String)}.
  */
+@FunctionalInterface
 public interface IUnificationHandler {
 	
 	void onUnifyItem(ItemStack oldStack, ItemStack newStack, IProduct product);

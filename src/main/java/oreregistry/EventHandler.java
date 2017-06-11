@@ -29,7 +29,6 @@ import oreregistry.api.OreRegistryApi;
 import oreregistry.api.info.IProductInfo;
 import oreregistry.config.Config;
 import oreregistry.network.PacketHandler;
-import oreregistry.util.ProductUtils;
 
 public class EventHandler {
 
@@ -49,7 +48,7 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void handleDrops(BlockEvent.HarvestDropsEvent event) {
-		if(Config.unifyItems){
+		if(!Config.unifyItems){
 			return;
 		}
 		List<ItemStack> drops = event.getDrops();
@@ -67,7 +66,7 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void handlePlayerDrops(PlayerDropsEvent event) {
-		if(Config.unifyItems){
+		if(!Config.unifyItems){
 			return;
 		}
 		for(EntityItem entityItem : event.getDrops()){
@@ -80,7 +79,7 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void handleToss(ItemTossEvent event) {
-		if(Config.unifyItems){
+		if(!Config.unifyItems){
 			return;
 		}
 		EntityItem entityItem = event.getEntityItem();
