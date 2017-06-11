@@ -15,11 +15,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
 import net.minecraftforge.fml.relauncher.Side;
 
 import oreregistry.OreRegistry;
+import oreregistry.api.CompleteChoosingEvent;
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.OreRegistryState;
 import oreregistry.api.registry.IProduct;
@@ -79,6 +81,7 @@ public class Config {
         unifyItems = config.getBoolean("unify", "tweaks", unifyItems, "If this is true ore registry unifies every item that dropped in the world or is tossed by the player to the chosen variant of his product if the item is a variant of a product.");
         
         config.save();
+        MinecraftForge.EVENT_BUS.post(new CompleteChoosingEvent());
         registry.setState(OreRegistryState.INACTIVE);
     }
 }

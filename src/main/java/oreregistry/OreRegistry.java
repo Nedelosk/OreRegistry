@@ -21,7 +21,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import oreregistry.api.CompleteChoosingEvent;
 import oreregistry.api.OreRegistryApi;
 import oreregistry.api.registry.IResource;
 import oreregistry.api.registry.IResourceRegistry;
@@ -66,7 +65,6 @@ public class OreRegistry {
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.post(new CompleteChoosingEvent());
 		Config.load(event.getSide());
 	}
 
